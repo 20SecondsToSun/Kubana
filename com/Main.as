@@ -1,4 +1,4 @@
-package com
+﻿package com
 {
 	import com.adobe.images.PNGEncoder;
 	import com.adobe.serialization.json.JSON;
@@ -30,6 +30,7 @@ package com
 		private var VK:APIConnection;
 		private var debugTF;
 		private var defaultPosition:Array = [];
+		private var defaultScale:Array = [];	
 		public var af = 1;
 		public var currentClip:MovieClip;
 		public var pht:PhotoUpload;
@@ -56,9 +57,10 @@ package com
 					addEventListener(MouseEvent.MOUSE_OUT, outSE);
 					txt.visible = false;
 					buttonMode = true;
-					scaleX = scaleY = 0.6;
+					//scaleX = scaleY = 0.6;
 				}
 				defaultPosition.push({x: this["ava" + i].x, y: this["ava" + i].y});
+				defaultScale.push({scaleX: this["ava" + i].scaleX, scaleY: this["ava" + i].scaleY});
 			}			
 			//initOne("ava1");	
 			
@@ -126,7 +128,7 @@ package com
 					buttonMode = true;
 					visible = true;
 				}
-				TweenLite.to(this["ava" + i], 0.3, {x: defaultPosition[i - 1].x, y: defaultPosition[i - 1].y, alpha: 1});
+				TweenLite.to(this["ava" + i], 0.3, {x: defaultPosition[i - 1].x, y: defaultPosition[i - 1].y, alpha: 1, scaleX: defaultScale[i - 1].scaleX, scaleY: defaultScale[i - 1].scaleY});
 				ServiceFunctions.removeAllChild(this["ava" + i].cont);
 			}
 			controlBlock.visible = false;
