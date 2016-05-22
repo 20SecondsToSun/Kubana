@@ -23,7 +23,7 @@
 	 */
 	public class Main extends MovieClip
 	{
-		private var __num:int = 7;
+		private var __num:int = 5;
 		private var angle = 0;
 		private var scalep = 1;
 		private var flashVars;
@@ -34,6 +34,8 @@
 		public var af = 1;
 		public var currentClip:MovieClip;
 		public var pht:PhotoUpload;
+		
+		public var lang:String = "RU";
 		
 		public function Main()
 		{
@@ -47,6 +49,10 @@
 			tint.visible = false;
 			tabEnabled = false;
 			stage.tabChildren = false;
+			ru.buttonMode = true;
+			lat.buttonMode = true;
+			ru.addEventListener(MouseEvent.CLICK, toggleLang);
+			lat.addEventListener(MouseEvent.CLICK, toggleLang);
 			
 			for (var i:int = 1; i <= __num; i++)
 			{
@@ -56,6 +62,7 @@
 					addEventListener(MouseEvent.MOUSE_OVER, overSE);
 					addEventListener(MouseEvent.MOUSE_OUT, outSE);
 					txt.visible = false;
+					txt.text = "";
 					buttonMode = true;
 					//scaleX = scaleY = 0.6;
 				}
@@ -75,6 +82,47 @@
 			}
 			VK = new APIConnection(flashVars);
 			debugInit();
+		}
+		
+		private function toggleLang(e:MouseEvent):void 
+		{
+			var cadr:int = 1;
+			if (e.currentTarget.name == "ru")
+			{
+				lang = "RU";
+				cadr = 1;
+			}
+			else
+			{
+				lang = "LAT";
+				cadr = 2;
+				
+			}
+			
+			for (var i:int = 1; i <= __num; i++)
+			{
+				with (this["ava" + i])
+				{
+					art.gotoAndStop(cadr);
+				}
+			}
+			t1.gotoAndStop(cadr);
+			t2.gotoAndStop(cadr);
+			
+			with (controlBlock)
+			{
+				upload.gotoAndStop(cadr);
+				savebtn.gotoAndStop(cadr);
+				movebtn.gotoAndStop(cadr);
+				sizebtn.gotoAndStop(cadr);
+				rotbtn.gotoAndStop(cadr);	
+				rotl.gotoAndStop(cadr);
+				rotr.gotoAndStop(cadr);
+				pll.gotoAndStop(cadr);
+				minr.gotoAndStop(cadr);
+				ava.gotoAndStop(cadr);
+				writebtn.gotoAndStop(cadr);
+			}
 		}
 		
 		public function debugInit():void
@@ -110,6 +158,9 @@
 		
 		public function chooSEBACK(e:MouseEvent):void
 		{
+			bevel.visible = true;
+			ru.visible = true;
+			lat.visible = true;
 			chs.buttonMode = false;
 			chs.removeEventListener(MouseEvent.CLICK, chooSEBACK);
 			chs.txt.text = ""; // "ВЫБЕРИ АВАТАРКУ";
@@ -173,7 +224,10 @@
 			t1.visible = t2.visible = false;
 			chs.buttonMode = true;
 			chs.addEventListener(MouseEvent.CLICK, chooSEBACK);
-			chs.txt.text = "ВЕРНУТЬСЯ К ВЫБОРУ";
+			chs.txt.text = (lang == "RU") ? "ВЕРНУТЬСЯ К ВЫБОРУ" : "ATGRIEZTIES PIE IZVĒLNES";
+			bevel.visible = false;
+			ru.visible = false;
+			lat.visible = false;
 			for (var i:int = 1; i <= __num; i++)
 			{
 				with (this["ava" + i])
@@ -190,7 +244,7 @@
 			{
 				with (this["ava" + j])
 				{
-					txt.text = "Твое Имя";
+					txt.text = "";// "Твое Имя";
 					txt.maxChars = 15;
 					txt.addEventListener(FocusEvent.FOCUS_IN, textInputHandler1);
 					txt.addEventListener(FocusEvent.FOCUS_OUT, textOuputHandler1);
